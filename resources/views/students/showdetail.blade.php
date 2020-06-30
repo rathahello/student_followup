@@ -1,56 +1,82 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
-    <title>Edit student</title>
-</head>
-<body>
+@extends('layouts.app')
+
+@section('content')
+
+
     <div class="container mt-5">
         <div class="row">
-            <div class="col-3"></div>
-            
-            <div class="col-6">
+            <div class="col-12">
                 <div class="card">
-                    <div class="card-header text-center">Edit students</div>
-                    <div class="card-body">
-                        <form action="#" method="POST" enctype="multipart/form-data">
-                            
-                            {{csrf_field()}}
-                            {{method_field('PUT')}}
-                            
-                            <div class="form-group">
-                                <input type="text" name="firstname" value="{{$students->firstname}}" class="form-control" placeholder="fistname">
-                            </div>
-                            <div class="form-group">
-                               
-                                <input type="text" name="lastname" value="{{$students->lastname}}"  class="form-control" placeholder="lastname">
-                            </div>
-                            <div class="form-group">
-                                <input type="text" name="class" value="{{$students->class}}"  class="form-control" placeholder="Class">
-                            </div>
-                            
-                            <div class="form-group">
-                                <div class="custom-file">
-                                    <input type="file" name="picture" value="{{$students->picture}}" class="form-control costom-file-input">
-                                </div>
-                            </div>
 
+                    <div class="card-header text-center">
+                        <img class="mx-auto d-block" src="{{asset('image/'.$students->picture)}}" style="width: 100px;, height:100px;">
+                    </div>
+
+                    <div class="card-body">
+                        <h4>{{$students->firstname}} {{$students->lastname}} - {{$students->class}}</h4>
+                        <p>Tutor: {{Auth::user()->firstname}}</p>
+
+                        <form action="{{route('addcomment',$students->id)}}" method="POST">
+                            @csrf                            
                             <div class="form-group">
-                                <label for="description">Description:</label>
-                                <textarea class="form-control" rows="3" name="description">{{$students->description}}</textarea>
+                                <textarea class="form-control" rows="3" name="comment" placeholder="write a comment..."></textarea>
                             </div>
                             
-                                <button type="reset" class="btn btn-warning"><a href="home" class="text-white">Cancel</a></button>
-                                <button type="submit" class="btn btn-success float-right">Edit Student</button>
+                                <button type="submit" class="btn btn-primary mb-2">Post</button>
                         </form>
+
+
+                        @foreach ($students->comments as $item)
+                        <div class="card">
+                            <div class="card-body alert-success">
+                                <h5>
+                                    {{ $item->id }} :
+                                
+                                    @if ($item->user_id == 1)
+                                        Admin 
+                                    @endif
+                                    @if ($item->user_id == 2)
+                                        Normal
+                                    @endif
+                                </h5>
+                                {{ $item->comment}}
+                            </div>
+                        </div>
+
+                        <a href="{{route('deletecomment',$item->id)}}" class="text-danger"><i class="fas fa-trash"></i></a>
+                     {{-- Edit Comment --}}
+                        <button type="button" class="btn fas fa-edit text-primary" style='font-size:15px' data-toggle="modal" data-target="#myModal{{$item->id}}"></button>
+                        <!-- Modal -->
+                        <div class="modal fade" id="myModal{{$item->id}}" role="dialog">
+                          <div class="modal-dialog">
+                          
+                            <!-- Modal content-->
+                            <div class="modal-content">
+                              <div class="modal-header bg bg-primary">
+                                  <h4 class="modal-title" style="margin-left:180px;color:white">Edit Comment</h4>
+                              </div>
+                              <div class="modal-body">
+                                <form action="{{route('updatecomment',$item->id)}}" method="POST">
+                                  @csrf
+                                  @method('POST')
+                                    <h5 style="color:blue"> Your Comment</h5>
+                                    <textarea name="comment" class="form-control">{{$item->comment}}</textarea><br>
+                                    <button type="button" class="btn btn-danger " data-dismiss="modal">Close</button>
+                                    <button class="btn btn-primary float-right" type="submit">Edit</button>
+                                </form>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                    
+                    @endforeach
+
+
                     </div>
                 </div>
             </div>
-            <div class="col-3"></div>
         </div>
     </div>
-</body>
-</html>
+
+
+@endsection

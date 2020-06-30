@@ -36,7 +36,8 @@
                 </tr>
                 </thead>
                 @foreach ($students as $student)
-                    
+                    @if ('activeFollowup' == 0)
+                        
                 <tbody>
                     <tr> 
                         <td>
@@ -46,18 +47,17 @@
                         <td>{{$student->lastname}}</td>
                         <td>{{$student->class}}</td>
                         <td>
-                            <a href="#" class="text-success"><i class="fas fa-eye"></i></a>
+                            <a href="{{route('students.show', $student->id)}}" class="text-success"><i class="fas fa-eye"></i></a>
                            
                             <a href="{{route('students.edit',$student->id)}}" class="text-primary"> <i class="fas fa-edit"></i></a>
-                            
+
                         </td>
                     </tr>
                 </tbody> 
-                    
+                @endif
                 @endforeach
             </table>                                                                         
         </div>
-
 
         <div class="tab-pane container fade mt-3" id="second">
                 
@@ -74,12 +74,15 @@
                         <th>Action</th>
                     </tr>
                     </thead>  
+                       
                     <tbody>
                         <tr>
-                           <td>#</td>
-                           <td>#</td>
-                           <td>#</td>
-                           <td>#</td>
+                            <td>
+                                <img class="mx-auto d-block" src="{{asset('image/'.$student->picture)}}" style="width: 100px;, height:100px;">
+                            </td>
+                            <td>{{$student->firstname}}</td>
+                            <td>{{$student->lastname}}</td>
+                            <td>{{$student->class}}</td>
                             <td>
                                 <a href="#">Delete</a>
                             </td>

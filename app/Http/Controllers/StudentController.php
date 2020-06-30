@@ -63,9 +63,10 @@ class StudentController extends Controller
      * @param  \App\Student  $student
      * @return \Illuminate\Http\Response
      */
-    public function show(Student $student)
+    public function show($id)
     {
-        //
+        $students = Student::find($id);
+        return view('students.showdetail',compact('students'));
     }
 
     /**
@@ -115,8 +116,16 @@ class StudentController extends Controller
      * @param  \App\Student  $student
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Student $student)
+    public function destroy($id)
     {
+       //
+    }
+
+    public function outOfFollowup(){
+        //
+    }
+
+    public function followUp(){
         //
     }
 }
