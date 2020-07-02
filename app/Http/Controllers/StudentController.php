@@ -121,12 +121,21 @@ class StudentController extends Controller
        //
     }
 
-    public function outOfFollowup(){
-        //
+    public function outOfFollowup($id)
+    {
+       
+        $student = Student::find($id);
+        $student->activeFollowup = false;
+        $student->save();
+        return back();
+        
     }
 
-    public function followUp(){
-        //
+    public function followUp($id){
+        $student = Student::find($id);
+        $student->activeFollowup = true;
+        $student->save();
+        return back();
     }
 }
 

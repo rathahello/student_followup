@@ -19,7 +19,9 @@
     <div class="tab-content">
 
         <div class="container tab-pane container active mt-3" id="first">
-            <a href="{{route('students.create')}}">Add student</a>
+            @if (Auth::user()->role == 1)
+                <a href="{{route('students.create')}}" class="btn btn-success">Add student</a>
+            @endif
 
         <br><br>
         <form class="searches mb-3" action="#">
@@ -36,7 +38,7 @@
                 </tr>
                 </thead>
                 @foreach ($students as $student)
-                    @if ('activeFollowup' == 0)
+                    @if ($student->activeFollowup==0)
                         
                 <tbody>
                     <tr> 
@@ -46,11 +48,14 @@
                         <td>{{$student->firstname}}</td>
                         <td>{{$student->lastname}}</td>
                         <td>{{$student->class}}</td>
-                        <td>
+                        <td class="text-center">
                             <a href="{{route('students.show', $student->id)}}" class="text-success"><i class="fas fa-eye"></i></a>
-                           
-                            <a href="{{route('students.edit',$student->id)}}" class="text-primary"> <i class="fas fa-edit"></i></a>
-
+                           @if (Auth::user()->role == 1)
+                             <a href="{{route('students.edit',$student->id)}}" class="text-primary"> <i class="fas fa-edit"></i></a>
+                           @endif
+                            @if (Auth::user()->role == 1)
+                               <a href="{{route('followup',$student->id)}}"><i class="fas fa-trash text-danger"></i></a>
+                            @endif
                         </td>
                     </tr>
                 </tbody> 
@@ -71,10 +76,16 @@
                         <th>Firstname</th>
                         <th>Lastname</th>
                         <th>Class</th>
+                        @if (Auth::user()->role == 1)
+                            
                         <th>Action</th>
+
+                        @endif
                     </tr>
                     </thead>  
-                       
+                       @foreach ($students as $student)
+                       @if ($student->activeFollowup==1)
+                           
                     <tbody>
                         <tr>
                             <td>
@@ -83,11 +94,19 @@
                             <td>{{$student->firstname}}</td>
                             <td>{{$student->lastname}}</td>
                             <td>{{$student->class}}</td>
-                            <td>
-                                <a href="#">Delete</a>
+
+                            @if (Auth::user()->role == 1)
+                                
+                            <td class="text-center">
+                                <a href="{{route('outoffollowup',$student->id)}}"><i class="fas fa-trash text-danger"></i></a>
                             </td>
+
+                            @endif
                         </tr>
-                    </tbody>       
+                    </tbody>   
+                    @endif
+                       
+                    @endforeach    
                  
                 </table>                                                                        
             </div>

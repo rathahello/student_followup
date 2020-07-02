@@ -26,11 +26,10 @@
                         </form>
 
 
-                        @foreach ($students->comments as $item)
+                    @foreach ($students->comments as $item)
                         <div class="card">
                             <div class="card-body alert-success">
                                 <h5>
-                                    {{ $item->id }} :
                                 
                                     @if ($item->user_id == 1)
                                         Admin 
@@ -42,10 +41,15 @@
                                 {{ $item->comment}}
                             </div>
                         </div>
-
-                        <a href="{{route('deletecomment',$item->id)}}" class="text-danger"><i class="fas fa-trash"></i></a>
+                        <br>
+                        @if (Auth::user() && (Auth::user()->id == $item->user_id)) 
+                
+                            <a href="{{route('deletecomment',$item->id)}}" class="text-danger"><i class="fas fa-trash"></i></a>
+                      
                      {{-- Edit Comment --}}
-                        <button type="button" class="btn fas fa-edit text-primary" style='font-size:15px' data-toggle="modal" data-target="#myModal{{$item->id}}"></button>
+
+                             <button type="button" class="btn fas fa-edit text-primary" style='font-size:15px' data-toggle="modal" data-target="#myModal{{$item->id}}"></button>
+                          @endif
                         <!-- Modal -->
                         <div class="modal fade" id="myModal{{$item->id}}" role="dialog">
                           <div class="modal-dialog">
@@ -56,6 +60,7 @@
                                   <h4 class="modal-title" style="margin-left:180px;color:white">Edit Comment</h4>
                               </div>
                               <div class="modal-body">
+                                  
                                 <form action="{{route('updatecomment',$item->id)}}" method="POST">
                                   @csrf
                                   @method('POST')
@@ -68,9 +73,8 @@
                             </div>
                           </div>
                         </div>
-                    
+                      
                     @endforeach
-
 
                     </div>
                 </div>
