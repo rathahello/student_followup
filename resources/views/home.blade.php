@@ -67,7 +67,7 @@
         <div class="tab-pane container fade mt-3" id="second">
                 
             <form class="searches mb-3" action="#">
-                <input type="text" class="form-control" placeholder="Search.." name="search">
+                <input type="text" class="form-control" placeholder="Search.." name="search" id="searches">
             </form>
                 <table class="table table-bordered table-hover">
                     <thead class="thead-light">
@@ -86,7 +86,7 @@
                        @foreach ($students as $student)
                        @if ($student->activeFollowup==1)
                            
-                    <tbody>
+                    <tbody id="students">
                         <tr>
                             <td>
                                 <img class="mx-auto d-block" src="{{asset('image/'.$student->picture)}}" style="width: 100px;, height:100px;">
@@ -115,4 +115,16 @@
     </div>
 
     </div>
+  {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script> --}}
+  {{-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script> --}}
+    <script>
+            $(document).ready(function(){
+              $("#searches").on("keyup", function() {
+                var value = $(this).val().toLowerCase();
+                $("#students tr").filter(function() {
+                  $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                });
+              });
+            });
+    </script>
 @endsection

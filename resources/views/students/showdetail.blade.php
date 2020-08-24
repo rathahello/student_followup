@@ -14,7 +14,8 @@
 
                     <div class="card-body">
                         <h4>{{$students->firstname}} {{$students->lastname}} - {{$students->class}}</h4>
-                        <p>Tutor: {{Auth::user()->firstname}}</p>
+                        <h4>Description:</h4> {{$students->description}}
+                        <p><b>Tutor:</b> {{Auth::user()->firstname}}</p>
 
                         <form action="{{route('addcomment',$students->id)}}" method="POST">
                             @csrf                            
@@ -24,7 +25,6 @@
                             
                                 <button type="submit" class="btn btn-primary mb-2">Post</button>
                         </form>
-
 
                     @foreach ($students->comments as $item)
                         <div class="card">

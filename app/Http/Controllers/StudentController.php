@@ -43,8 +43,8 @@ class StudentController extends Controller
         $students->firstname = $request->get('firstname');
         $students->lastname = $request->get('lastname');
         $students->class = $request->get('class');
-        $img = $request->file('picture');
         // $student->tutor = $request->get('tutor');
+        $img = $request->file('picture');
         $filename = time() . '.' . $img->getClientOriginalExtension();
         $location = public_path('image/'.$filename);
         Image::make($img)->resize(100,100)->save($location);
@@ -137,5 +137,7 @@ class StudentController extends Controller
         $student->save();
         return back();
     }
+
+   
 }
 

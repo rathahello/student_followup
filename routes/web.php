@@ -27,4 +27,3 @@ Route::post('updatecomment/{id}','commentController@updateComment')->name('updat
 
 Route::get('outoffollowup/{id}','StudentController@outOfFollowup')->name('outoffollowup');
 Route::get('followup/{id}','StudentController@followUp')->name('followup');
-
