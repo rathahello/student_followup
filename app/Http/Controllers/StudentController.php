@@ -43,8 +43,8 @@ class StudentController extends Controller
         $students->firstname = $request->get('firstname');
         $students->lastname = $request->get('lastname');
         $students->class = $request->get('class');
-        $img = $request->file('picture');
         // $student->tutor = $request->get('tutor');
+        $img = $request->file('picture');
         $filename = time() . '.' . $img->getClientOriginalExtension();
         $location = public_path('image/'.$filename);
         Image::make($img)->resize(100,100)->save($location);
@@ -63,9 +63,10 @@ class StudentController extends Controller
      * @param  \App\Student  $student
      * @return \Illuminate\Http\Response
      */
-    public function show(Student $student)
+    public function show($id)
     {
-        //
+        $students = Student::find($id);
+        return view('students.showdetail',compact('students'));
     }
 
     /**
@@ -115,9 +116,28 @@ class StudentController extends Controller
      * @param  \App\Student  $student
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Student $student)
+    public function destroy($id)
     {
-        //
+       //
     }
+
+    public function outOfFollowup($id)
+    {
+       
+        $student = Student::find($id);
+        $student->activeFollowup = false;
+        $student->save();
+        return back();
+        
+    }
+
+    public function followUp($id){
+        $student = Student::find($id);
+        $student->activeFollowup = true;
+        $student->save();
+        return back();
+    }
+
+   
 }
 

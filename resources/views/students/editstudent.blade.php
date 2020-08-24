@@ -1,13 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
-    <title>Edit student</title>
-</head>
-<body>
+@extends('layouts.app')
+
+@section('content')
     <div class="container mt-5">
         <div class="row">
             <div class="col-3"></div>
@@ -52,5 +45,5 @@
             <div class="col-3"></div>
         </div>
     </div>
-</body>
-</html>
+
+    @endsection
